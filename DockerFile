@@ -1,0 +1,15 @@
+FROM alpine:3.10
+
+RUN apk add --update nodejs npm
+
+ENV NODE_VERSION 14.4.0
+
+RUN addgroup -S node && adduser -S node -G node
+
+USER node
+
+RUN mkdir /git/
+
+WORKDIR /git/
+
+RUN echo "Hello World"
