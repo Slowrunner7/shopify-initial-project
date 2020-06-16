@@ -2,14 +2,18 @@ FROM alpine:3.10
 
 RUN apk add --update nodejs npm
 
-ENV NODE_VERSION 14.4.0
-
 RUN addgroup -S node && adduser -S node -G node
 
 USER node
 
-RUN mkdir /git/
+RUN mkdir /home/node/code
 
-WORKDIR /git/
+WORKDIR /home/node/code
 
-RUN echo "Hello World"
+COPY --chown=node:node package-lock.json package.json ./
+
+RUN npm ci
+
+COPY --chown=node:node . .
+
+CMD ["node", "index.js"]
